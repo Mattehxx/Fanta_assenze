@@ -64,38 +64,47 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             boolean trovato=false;
-
-            if (list.contains(buttons_student[view.getId()].getText())) {
-                buttons_student[view.getId()].setBackgroundColor(Color.rgb(66, 135, 245));
-                //Toast.makeText(MainActivity.this, "Già aggiunto!", Toast.LENGTH_SHORT).show();
-            } else {
-                list.add((String) buttons_student[view.getId()].getText());
-                buttons_student[view.getId()].setBackgroundColor(Color.rgb(227, 81, 41));
-            }
-
-            if (buttons_clicked[view.getId()]) {
-                buttons_clicked[view.getId()]=false;
-            } else {
-                buttons_clicked[view.getId()]=true;
-            }
-
-            for(int i=0;i<buttons_clicked.length && !trovato;i++) {
-                if (buttons_clicked[i]) {
-                    cart_full=true;
-                    trovato=true;
+            try {
+                if (list.contains(buttons_student[view.getId()].getText())) {
+                    list.remove(buttons_student[view.getId()].getText());
+                    //Blue
+                    buttons_student[view.getId()].setBackgroundColor(Color.rgb(66, 135, 245));
+                    //Debug
+                    System.out.println("REMOVE FROM LIST:" + list);
+                } else {
+                    list.add((String) buttons_student[view.getId()].getText());
+                    //Orange
+                    buttons_student[view.getId()].setBackgroundColor(Color.rgb(227, 81, 41));
+                    //Debug
+                    System.out.println("ADDED TO LIST:" + list);
                 }
+
+                if (buttons_clicked[view.getId()]) {
+                    buttons_clicked[view.getId()] = false;
+                } else {
+                    buttons_clicked[view.getId()] = true;
+                }
+
+                for (int i = 0; i < buttons_clicked.length && !trovato; i++) {
+                    if (buttons_clicked[i]) {
+                        cart_full = true;
+                        trovato = true;
+                    }
+                }
+
+                if (!trovato) cart_full = false;
+
+                if (cart_full) {
+                    //Orange
+                    button_cart.setBackgroundColor(Color.rgb(227, 81, 41));
+                } else {
+                    //Blue
+                    button_cart.setBackgroundColor(Color.rgb(66, 135, 245));
+                }
+            } catch (Exception e) {
+                System.out.println("EXCEPTION");
+                e.printStackTrace();
             }
-
-            if (!trovato) cart_full=false;
-
-            if (cart_full) {
-                //Orange
-                button_cart.setBackgroundColor(Color.rgb(227, 81, 41));
-            } else {
-                //Blue
-                button_cart.setBackgroundColor(Color.rgb(66, 135, 245));
-            }
-
             //extras.putString(String.valueOf(view.getId()), (String) buttons_student[view.getId()].getText());
             //list.add(String.valueOf(view.getId()));
         }
